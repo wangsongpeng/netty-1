@@ -300,7 +300,7 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
     @Override
     protected ByteBuf newHeapBuffer(int initialCapacity, int maxCapacity) {
         PoolThreadCache cache = threadCache.get();
-        PoolArena<byte[]> heapArena = cache.heapArena;
+        PoolArena<byte[]> heapArena = cache.heapArena();
 
         final ByteBuf buf;
         if (heapArena != null) {
@@ -317,7 +317,7 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
     @Override
     protected ByteBuf newDirectBuffer(int initialCapacity, int maxCapacity) {
         PoolThreadCache cache = threadCache.get();
-        PoolArena<ByteBuffer> directArena = cache.directArena;
+        PoolArena<ByteBuffer> directArena = cache.directArena();
 
         final ByteBuf buf;
         if (directArena != null) {
@@ -440,14 +440,19 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator implements 
             if (useCacheForAllThreads || current instanceof FastThreadLocalThread) {
                 // If our FastThreadLocalThread will call FastThreadLocal.removeAll() we not need to use
                 // the ThreadDeathWatcher to release memory from the PoolThreadCache once the Thread dies.
-                boolean useTheadWatcher = fastThread ?
+                boolean needsCleanupOnGC = fastThread ?
                         !((FastThreadLocalThread) current).willCleanupFastThreadLocals() : true;
-                return new PoolThreadCache(
+                PoolThreadCache cache = new PoolThreadCache(
                         heapArena, directArena, tinyCacheSize, smallCacheSize, normalCacheSize,
-                        DEFAULT_MAX_CACHED_BUFFER_CAPACITY, DEFAULT_CACHE_TRIM_INTERVAL, useTheadWatcher);
+                        DEFAULT_MAX_CACHED_BUFFER_CAPACITY, DEFAULT_CACHE_TRIM_INTERVAL);
+                if (needsCleanupOnGC) {
+                    // Register for cleanup when the PoolThreadCache is ready for been collected.
+                    cache.registerCleanupTask();
+                }
+                return cache;
             }
             // No caching for non FastThreadLocalThreads.
-            return new PoolThreadCache(heapArena, directArena, 0, 0, 0, 0, 0, false);
+            return new PoolThreadCache(heapArena, directArena, 0, 0, 0, 0, 0);
         }
 
         @Override
