@@ -249,23 +249,20 @@ import java.nio.charset.UnsupportedCharsetException;
 public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
 
     /**
-     * Returns the number of bytes (octets) this buffer can contain.
+     * 返回缓冲区中包含的字节数
      */
     public abstract int capacity();
 
     /**
-     * Adjusts the capacity of this buffer.  If the {@code newCapacity} is less than the current
-     * capacity, the content of this buffer is truncated.  If the {@code newCapacity} is greater
-     * than the current capacity, the buffer is appended with unspecified data whose length is
-     * {@code (newCapacity - currentCapacity)}.
+     * 调整此缓冲区的容量。 如果newCapacity小于当前值
+     * 容量，此缓冲区的内容被截断。 如果newCapacity比当前的容量更大，
+     * 缓冲区附加了长度为（newCapacity - currentCapacity）的数据
      */
     public abstract ByteBuf capacity(int newCapacity);
 
     /**
-     * Returns the maximum allowed capacity of this buffer.  If a user attempts to increase the
-     * capacity of this buffer beyond the maximum capacity using {@link #capacity(int)} or
-     * {@link #ensureWritable(int)}, those methods will raise an
-     * {@link IllegalArgumentException}.
+     * 返回缓冲区中最大的容量，如果用户尝试用 capacity(int) 或 ensureWritable(int) 方法
+     * 增加缓冲区的容量，当容量大于最大的容量的时候会抛出 IllegalArgumentException 异常
      */
     public abstract int maxCapacity();
 
@@ -299,15 +296,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf order(ByteOrder endianness);
 
     /**
-     * Return the underlying buffer instance if this buffer is a wrapper of another buffer.
+     * 如果此缓冲区是另一个缓冲区的包装，则返回基础缓冲区实例。
      *
-     * @return {@code null} if this buffer is not a wrapper
+     * return null 如果这个缓冲区不是一个包装
      */
     public abstract ByteBuf unwrap();
 
     /**
-     * Returns {@code true} if and only if this buffer is backed by an
-     * NIO direct buffer.
+     * 当且仅当此缓冲区由NIO直接缓冲区支持时才返回true。
      */
     public abstract boolean isDirect();
 

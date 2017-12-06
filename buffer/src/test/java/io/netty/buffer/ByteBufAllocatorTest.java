@@ -62,6 +62,22 @@ public abstract class ByteBufAllocatorTest {
     protected abstract boolean isDirectExpected(boolean preferDirect);
 
     @Test
+    public void testIoBuffer() {
+        testIoBuffer(true);
+        testIoBuffer(false);
+    }
+
+    private void testIoBuffer(boolean preferDirect) {
+        ByteBufAllocator allocator = newAllocator(preferDirect);
+        ByteBuf buffer = allocator.ioBuffer(1);
+        try {
+            assertBuffer(buffer, true, 1, defaultMaxCapacity());
+        }finally {
+            buffer.release();
+        }
+    }
+
+    @Test
     public void testHeapBuffer() {
         testHeapBuffer(true);
         testHeapBuffer(false);

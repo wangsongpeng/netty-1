@@ -61,3 +61,28 @@ are listed below:
 
 Automatic modules do not provide any means to declare dependencies, so you need to list each used module separately
 in your `module-info` file.
+
+---
+
+## Netty4 以后版本新特性
+
+项目包结构大改变
+
+```
+netty-parent	        Maven parent POM
+netty-common	        工具类及日志接口
+netty-buffer	        ByteBuf API，用来替换java.nio.ByteBuffer
+netty-transport	        Channel API 及核心 transports
+netty-transport-rxtx	Rxtx transport
+netty-transport-sctp	SCTP transport
+netty-transport-udt	    UDT transport
+netty-handler	        ChannelHandler 的相关实现
+netty-codec	            编解码框架，用于编写encoder及decoder
+netty-codec-http	    HTTP, Web Sockets, SPDY, and RTSP相关的编解码器
+netty-codec-socks	    SOCKS协议相关的编解码器
+netty-all	            包含以上所有artifacts的All-in-one的JAR
+netty-tarball	        Tarball distribution
+netty-example	        样例
+netty-testsuite-*	    整合的测试集
+netty-microbench	    微基准测试（Microbenchmarks）
+```

@@ -26,23 +26,18 @@ import java.util.concurrent.TimeUnit;
 public interface Future<V> extends java.util.concurrent.Future<V> {
 
     /**
-     * Returns {@code true} if and only if the I/O operation was completed
-     * successfully.
+     * 如果 IO 操作成功完成，返回 true
      */
     boolean isSuccess();
 
     /**
-     * returns {@code true} if and only if the operation can be cancelled via {@link #cancel(boolean)}.
+     * 当且仅当操作可以取消，返回 true
      */
     boolean isCancellable();
 
     /**
-     * Returns the cause of the failed I/O operation if the I/O operation has
-     * failed.
-     *
-     * @return the cause of the failure.
-     *         {@code null} if succeeded or this future is not
-     *         completed yet.
+     * 如果 IO 操作失败，返回 IO 操作失败的原因
+     * 如果操作成功或者 future 没有完成，返回 null
      */
     Throwable cause();
 

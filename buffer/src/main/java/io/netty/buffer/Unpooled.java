@@ -73,12 +73,12 @@ public final class Unpooled {
     private static final ByteBufAllocator ALLOC = UnpooledByteBufAllocator.DEFAULT;
 
     /**
-     * Big endian byte order.
+     * Big endian byte order.（大端字节序）
      */
     public static final ByteOrder BIG_ENDIAN = ByteOrder.BIG_ENDIAN;
 
     /**
-     * Little endian byte order.
+     * Little endian byte order.（小端字节序）
      */
     public static final ByteOrder LITTLE_ENDIAN = ByteOrder.LITTLE_ENDIAN;
 
