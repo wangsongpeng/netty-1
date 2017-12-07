@@ -68,6 +68,12 @@ in your `module-info` file.
 
 博客参考：http://ifeve.com/netty-4-0-new/
 
+更多关于 netty 的博客可以参考：
+
+1、http://ifeve.com/category/netty/
+
+2、http://cmsblogs.com/
+
 项目包结构大改变
 
 ```
