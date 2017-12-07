@@ -66,6 +66,8 @@ in your `module-info` file.
 
 ## Netty4 以后版本新特性
 
+博客参考：http://ifeve.com/netty-4-0-new/
+
 项目包结构大改变
 
 ```
