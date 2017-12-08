@@ -16,12 +16,12 @@
 package io.netty.util;
 
 /**
- * Represents a supplier of {@code int}-valued results.
+ * 代表一个返回 int 结果的提供商
  */
 public interface IntSupplier {
 
     /**
-     * Gets a result.
+     * 获取结果
      *
      * @return a result
      */

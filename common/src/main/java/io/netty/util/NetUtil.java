@@ -42,7 +42,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
- * A class that holds a number of network-related constants.
+ * 一个拥有许多网络相关常量的类.
  * <p/>
  * This class borrowed some of its methods from a  modified fork of the
  * <a href="http://svn.apache.org/repos/asf/harmony/enhanced/java/branches/java6/classlib/modules/luni/

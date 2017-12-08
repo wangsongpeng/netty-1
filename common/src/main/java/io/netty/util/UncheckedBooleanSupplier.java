@@ -16,7 +16,7 @@
 package io.netty.util;
 
 /**
- * Represents a supplier of {@code boolean}-valued results which doesn't throw any checked exceptions.
+ * 表示布尔值 - 结果的供应商。（不抛出任何检查性异常）
  */
 public interface UncheckedBooleanSupplier extends BooleanSupplier {
     /**
@@ -29,20 +29,10 @@ public interface UncheckedBooleanSupplier extends BooleanSupplier {
     /**
      * A supplier which always returns {@code false} and never throws.
      */
-    UncheckedBooleanSupplier FALSE_SUPPLIER = new UncheckedBooleanSupplier() {
-        @Override
-        public boolean get() {
-            return false;
-        }
-    };
+    UncheckedBooleanSupplier FALSE_SUPPLIER = () -> false;
 
     /**
      * A supplier which always returns {@code true} and never throws.
      */
-    UncheckedBooleanSupplier TRUE_SUPPLIER = new UncheckedBooleanSupplier() {
-        @Override
-        public boolean get() {
-            return true;
-        }
-    };
+    UncheckedBooleanSupplier TRUE_SUPPLIER = () -> true;
 }

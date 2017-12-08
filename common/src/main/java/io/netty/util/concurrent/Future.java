@@ -73,14 +73,12 @@ public interface Future<V> extends java.util.concurrent.Future<V> {
     Future<V> removeListeners(GenericFutureListener<? extends Future<? super V>>... listeners);
 
     /**
-     * Waits for this future until it is done, and rethrows the cause of the failure if this future
-     * failed.
+     * 等待这个 Future，直到完成为止，如果这个 Future 失败了，就会重新引发失败的原因。
      */
     Future<V> sync() throws InterruptedException;
 
     /**
-     * Waits for this future until it is done, and rethrows the cause of the failure if this future
-     * failed.
+     * 等待这个 Future，直到完成为止，如果这个 Future 失败了，就会重新引发失败的原因。
      */
     Future<V> syncUninterruptibly();
 

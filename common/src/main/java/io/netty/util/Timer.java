@@ -20,29 +20,25 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Schedules {@link TimerTask}s for one-time future execution in a background
- * thread.
+ * 定时任务 TimerTasks 在后台线程中一次性执行。
  */
 public interface Timer {
 
     /**
-     * Schedules the specified {@link TimerTask} for one-time execution after
-     * the specified delay.
+     * 在指定的延迟之后安排指定的 TimerTask 执行一次执行
      *
-     * @return a handle which is associated with the specified task
+     * 返回一个与指定任务相关的句柄
      *
-     * @throws IllegalStateException       if this timer has been {@linkplain #stop() stopped} already
-     * @throws RejectedExecutionException if the pending timeouts are too many and creating new timeout
-     *                                    can cause instability in the system.
+     * @throws IllegalStateException       如果这个 timer 停止
+     * @throws RejectedExecutionException 如果等待中的超时时间太长，创建新的超时会导致系统不稳定。
      */
     Timeout newTimeout(TimerTask task, long delay, TimeUnit unit);
 
     /**
-     * Releases all resources acquired by this {@link Timer} and cancels all
-     * tasks which were scheduled but not executed yet.
      *
-     * @return the handles associated with the tasks which were canceled by
-     *         this method
+     * 释放此 Timer 所获取的所有资源，并取消所有已安排但尚未执行的任务。
+     *
+     * 返回与由此方法取消的任务关联的句柄
      */
     Set<Timeout> stop();
 }

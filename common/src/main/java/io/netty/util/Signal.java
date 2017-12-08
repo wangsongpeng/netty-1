@@ -17,8 +17,8 @@ package io.netty.util;
 
 
 /**
- * A special {@link Error} which is used to signal some state or request by throwing it.
- * {@link Signal} has an empty stack trace and has no cause to save the instantiation overhead.
+ * 一个特殊的错误，用来通过抛出一些状态或请求的信号
+ * 信号有一个空的堆栈跟踪，没有理由保存实例开销。
  */
 public final class Signal extends Error implements Constant<Signal> {
 
@@ -32,7 +32,7 @@ public final class Signal extends Error implements Constant<Signal> {
     };
 
     /**
-     * Returns the {@link Signal} of the specified name.
+     * 根据指定的 name 返回 signal
      */
     public static Signal valueOf(String name) {
         return pool.valueOf(name);
@@ -48,7 +48,7 @@ public final class Signal extends Error implements Constant<Signal> {
     private final SignalConstant constant;
 
     /**
-     * Creates a new {@link Signal} with the specified {@code name}.
+     * 根据指定的 name 创建个新的 Signal
      */
     private Signal(int id, String name) {
         constant = new SignalConstant(id, name);

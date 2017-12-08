@@ -16,7 +16,7 @@
 package io.netty.util;
 
 /**
- * Abstraction for hash code generation and equality comparison.
+ * 哈希码生成和等式比较的抽象
  */
 public interface HashingStrategy<T> {
     /**

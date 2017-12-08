@@ -18,7 +18,7 @@ package io.netty.util;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Base implementation of {@link Constant}.
+ * Constant的简单实现
  */
 public abstract class AbstractConstant<T extends AbstractConstant<T>> implements Constant<T> {
 

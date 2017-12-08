@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Checks if a thread is alive periodically and runs a task when a thread dies.
+ * 检查线程是否处于活动状态，并在线程死亡时运行任务.
  * <p>
  * This thread starts a daemon thread to check the state of the threads being watched and to invoke their
  * associated {@link Runnable}s.  When there is no thread to watch (i.e. all threads are dead), the daemon thread
@@ -64,11 +64,10 @@ public final class ThreadDeathWatcher {
     }
 
     /**
-     * Schedules the specified {@code task} to run when the specified {@code thread} dies.
+     * 计划指定的任务在指定的线程死亡时运行。
      *
      * @param thread the {@link Thread} to watch
-     * @param task the {@link Runnable} to run when the {@code thread} dies
-     *
+     * @param task   the {@link Runnable} to run when the {@code thread} dies
      * @throws IllegalArgumentException if the specified {@code thread} is not alive
      */
     public static void watch(Thread thread, Runnable task) {
@@ -86,7 +85,7 @@ public final class ThreadDeathWatcher {
     }
 
     /**
-     * Cancels the task scheduled via {@link #watch(Thread, Runnable)}.
+     * 通过#watch（Thread，Runnable）取消预定的任务
      */
     public static void unwatch(Thread thread, Runnable task) {
         if (thread == null) {
@@ -99,6 +98,13 @@ public final class ThreadDeathWatcher {
         schedule(thread, task, false);
     }
 
+    /**
+     * 定时任务
+     *
+     * @param thread    线程
+     * @param task      任务
+     * @param isWatch   判断线程是否处于守望
+     */
     private static void schedule(Thread thread, Runnable task, boolean isWatch) {
         pendingEntries.add(new Entry(thread, task, isWatch));
 
@@ -132,7 +138,8 @@ public final class ThreadDeathWatcher {
         }
     }
 
-    private ThreadDeathWatcher() { }
+    private ThreadDeathWatcher() {
+    }
 
     private static final class Watcher implements Runnable {
 
@@ -140,7 +147,7 @@ public final class ThreadDeathWatcher {
 
         @Override
         public void run() {
-            for (;;) {
+            for (; ; ) {
                 fetchWatchees();
                 notifyWatchees();
 
@@ -186,7 +193,7 @@ public final class ThreadDeathWatcher {
         }
 
         private void fetchWatchees() {
-            for (;;) {
+            for (; ; ) {
                 Entry e = pendingEntries.poll();
                 if (e == null) {
                     break;
@@ -202,7 +209,7 @@ public final class ThreadDeathWatcher {
 
         private void notifyWatchees() {
             List<Entry> watchees = this.watchees;
-            for (int i = 0; i < watchees.size();) {
+            for (int i = 0; i < watchees.size(); ) {
                 Entry e = watchees.get(i);
                 if (!e.thread.isAlive()) {
                     watchees.remove(i);
@@ -212,7 +219,7 @@ public final class ThreadDeathWatcher {
                         logger.warn("Thread death watcher task raised an exception:", t);
                     }
                 } else {
-                    i ++;
+                    i++;
                 }
             }
         }

@@ -16,12 +16,12 @@
 package io.netty.util;
 
 /**
- * Maintains the mapping from the objects of one type to the objects of the other type.
+ * 保持从一个类型的对象到另一个类型的对象的映射.
  */
 public interface Mapping<IN, OUT> {
 
     /**
-     * Returns mapped value of the specified input.
+     * 根据传进去的 input，返回对应映射的 value
      */
     OUT map(IN input);
 }

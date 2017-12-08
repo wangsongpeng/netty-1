@@ -103,13 +103,10 @@ public class RecyclerTest {
 
         final HandledObject o = recycler.get();
         final HandledObject o2 = recycler.get();
-        final Thread thread = new Thread() {
-            @Override
-            public void run() {
-                o.recycle();
-                o2.recycle();
-            }
-        };
+        final Thread thread = new Thread(() -> {
+            o.recycle();
+            o2.recycle();
+        });
         thread.start();
         thread.join();
 
@@ -135,14 +132,11 @@ public class RecyclerTest {
             array[i].recycle();
         }
 
-        final Thread thread = new Thread() {
-            @Override
-            public void run() {
-                for (int i = maxCapacity; i < array.length; i ++) {
-                    array[i].recycle();
-                }
+        final Thread thread = new Thread(() -> {
+            for (int i = maxCapacity; i < array.length; i ++) {
+                array[i].recycle();
             }
-        };
+        });
         thread.start();
         thread.join();
 
@@ -181,14 +175,11 @@ public class RecyclerTest {
         instancesCount.set(0);
 
         // Recycle from other thread.
-        final Thread thread = new Thread() {
-            @Override
-            public void run() {
-                for (HandledObject object: array) {
-                    object.recycle();
-                }
+        final Thread thread = new Thread(() -> {
+            for (HandledObject object: array) {
+                object.recycle();
             }
-        };
+        });
         thread.start();
         thread.join();
 

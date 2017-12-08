@@ -16,33 +16,24 @@
 package io.netty.util;
 
 /**
- * Represents a supplier of {@code boolean}-valued results.
+ * 表示布尔值 - 结果的供应商。
  */
 public interface BooleanSupplier {
     /**
-     * Gets a boolean value.
+     * 获取 boolean 的值
+     *
      * @return a boolean value.
      * @throws Exception If an exception occurs.
      */
     boolean get() throws Exception;
 
     /**
-     * A supplier which always returns {@code false} and never throws.
+     * 一个总是返回 false 的提供方（不会抛出异常）
      */
-    BooleanSupplier FALSE_SUPPLIER = new BooleanSupplier() {
-        @Override
-        public boolean get() {
-            return false;
-        }
-    };
+    BooleanSupplier FALSE_SUPPLIER = () -> false;
 
     /**
-     * A supplier which always returns {@code true} and never throws.
+     * 一个总是返回 true 的提供方（不会抛出异常）
      */
-    BooleanSupplier TRUE_SUPPLIER = new BooleanSupplier() {
-        @Override
-        public boolean get() {
-            return true;
-        }
-    };
+    BooleanSupplier TRUE_SUPPLIER = () -> true;
 }

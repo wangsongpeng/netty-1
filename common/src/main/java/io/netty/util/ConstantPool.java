@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A pool of {@link Constant}s.
+ * 常量池
  *
  * @param <T> the type of the constant
  */
@@ -61,7 +61,7 @@ public abstract class ConstantPool<T extends Constant<T>> {
     }
 
     /**
-     * Get existing constant by name or creates new one if not exists. Threadsafe
+     * 根据 name 获取已存在的常量 或者 如果不存在则创建一个新的，线程安全
      *
      * @param name the name of the {@link Constant}
      */
@@ -96,7 +96,7 @@ public abstract class ConstantPool<T extends Constant<T>> {
     }
 
     /**
-     * Creates constant by name or throws exception. Threadsafe
+     * 根据 name 创建常量 或者 抛出异常，线程安全
      *
      * @param name the name of the {@link Constant}
      */

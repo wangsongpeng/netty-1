@@ -18,8 +18,7 @@ package io.netty.util;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A task which is executed after the delay specified with
- * {@link Timer#newTimeout(TimerTask, long, TimeUnit)}.
+ * 在指定的延迟 Timer#newTimeout(TimerTask, long, TimeUnit) 之后执行的任务
  */
 public interface TimerTask {
 

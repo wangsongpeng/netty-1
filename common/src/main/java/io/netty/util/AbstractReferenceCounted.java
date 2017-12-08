@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import static io.netty.util.internal.ObjectUtil.checkPositive;
 
 /**
- * Abstract base class for classes wants to implement {@link ReferenceCounted}.
+ * 抽象类的基类实现 ReferenceCounted。
  */
 public abstract class AbstractReferenceCounted implements ReferenceCounted {
 
