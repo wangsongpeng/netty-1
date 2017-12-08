@@ -17,12 +17,9 @@
 package io.netty.util.internal.logging;
 
 /**
- * Creates an {@link InternalLogger} or changes the default factory
- * implementation.  This factory allows you to choose what logging framework
- * Netty should use.  The default factory is {@link Slf4JLoggerFactory}.  If SLF4J
- * is not available, {@link Log4JLoggerFactory} is used.  If Log4J is not available,
- * {@link JdkLoggerFactory} is used.  You can change it to your preferred
- * logging framework before other Netty classes are loaded:
+ * 创建个 InternalLogger，或者改变默认的工厂实现，这个工厂允许你去选择 netty 该使用哪种日志框架。
+ * 默认的是 Slf4JLoggerFactory，如果 SLF4J 不可用，Log4JLoggerFactory 就起到作用了。
+ * 如果 Log4J 不可用，JdkLoggerFactory 就起到作用了。你可以在 Netty 类加载之前改变（换成你喜欢的日志框架）
  * <pre>
  * {@link InternalLoggerFactory}.setDefaultFactory({@link Log4JLoggerFactory}.INSTANCE);
  * </pre>
