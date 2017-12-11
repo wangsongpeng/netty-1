@@ -26,17 +26,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 抽象基础类(想要支持定时)
  * Abstract base class for {@link EventExecutor}s that want to support scheduling.
  */
 public abstract class AbstractScheduledEventExecutor extends AbstractEventExecutor {
 
-    private static final Comparator<ScheduledFutureTask<?>> SCHEDULED_FUTURE_TASK_COMPARATOR =
-            new Comparator<ScheduledFutureTask<?>>() {
-                @Override
-                public int compare(ScheduledFutureTask<?> o1, ScheduledFutureTask<?> o2) {
-                    return o1.compareTo(o2);
-                }
-            };
+    private static final Comparator<ScheduledFutureTask<?>> SCHEDULED_FUTURE_TASK_COMPARATOR = ScheduledFutureTask::compareTo;
 
     PriorityQueue<ScheduledFutureTask<?>> scheduledTaskQueue;
 
@@ -66,9 +61,9 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
     }
 
     /**
-     * Cancel all scheduled tasks.
+     * 取消所有的定时任务
      *
-     * This method MUST be called only when {@link #inEventLoop()} is {@code true}.
+     * 该方法只有在 inEventLoop() 返回 true 时才会执行（方法内第一行用了断言）
      */
     protected void cancelScheduledTasks() {
         assert inEventLoop();
@@ -205,12 +200,7 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
         if (inEventLoop()) {
             scheduledTaskQueue().add(task);
         } else {
-            execute(new Runnable() {
-                @Override
-                public void run() {
-                    scheduledTaskQueue().add(task);
-                }
-            });
+            execute(() -> scheduledTaskQueue().add(task));
         }
 
         return task;
@@ -220,12 +210,7 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
         if (inEventLoop()) {
             scheduledTaskQueue().removeTyped(task);
         } else {
-            execute(new Runnable() {
-                @Override
-                public void run() {
-                    removeScheduled(task);
-                }
-            });
+            execute(() -> removeScheduled(task));
         }
     }
 }
