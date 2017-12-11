@@ -105,28 +105,15 @@ public final class PlatformDependent {
 
     public static final boolean BIG_ENDIAN_NATIVE_ORDER = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
 
-    private static final Cleaner NOOP = new Cleaner() {
-        @Override
-        public void freeDirectBuffer(ByteBuffer buffer) {
-            // NOOP
-        }
+    private static final Cleaner NOOP = buffer -> {
+        // NOOP
     };
 
     static {
         if (javaVersion() >= 7) {
-            RANDOM_PROVIDER = new ThreadLocalRandomProvider() {
-                @Override
-                public Random current() {
-                    return java.util.concurrent.ThreadLocalRandom.current();
-                }
-            };
+            RANDOM_PROVIDER = () -> java.util.concurrent.ThreadLocalRandom.current();
         } else {
-            RANDOM_PROVIDER = new ThreadLocalRandomProvider() {
-                @Override
-                public Random current() {
-                    return ThreadLocalRandom.current();
-                }
-            };
+            RANDOM_PROVIDER = () -> ThreadLocalRandom.current();
         }
         if (logger.isDebugEnabled()) {
             logger.debug("-Dio.netty.noPreferDirect: {}", !DIRECT_BUFFER_PREFERRED);

@@ -37,8 +37,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Helper class to load JNI resources.
- *
+ * 加载 JNI 资源的帮助类
  */
 public final class NativeLibraryLoader {
 
@@ -72,8 +71,7 @@ public final class NativeLibraryLoader {
     }
 
     /**
-     * Loads the first available library in the collection with the specified
-     * {@link ClassLoader}.
+     * 通过指定的类加载器加载集合中第一个可用的库
      *
      * @throws IllegalArgumentException
      *         if none of the given libraries load successfully.
@@ -252,18 +250,15 @@ public final class NativeLibraryLoader {
 
     private static void loadLibraryByHelper(final Class<?> helper, final String name, final boolean absolute)
             throws UnsatisfiedLinkError {
-        Object ret = AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            @Override
-            public Object run() {
-                try {
-                    // Invoke the helper to load the native library, if succeed, then the native
-                    // library belong to the specified ClassLoader.
-                    Method method = helper.getMethod("loadLibrary", String.class, boolean.class);
-                    method.setAccessible(true);
-                    return method.invoke(null, name, absolute);
-                } catch (Exception e) {
-                    return e;
-                }
+        Object ret = AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+            try {
+                // Invoke the helper to load the native library, if succeed, then the native
+                // library belong to the specified ClassLoader.
+                Method method = helper.getMethod("loadLibrary", String.class, boolean.class);
+                method.setAccessible(true);
+                return method.invoke(null, name, absolute);
+            } catch (Exception e) {
+                return e;
             }
         });
         if (ret instanceof Throwable) {

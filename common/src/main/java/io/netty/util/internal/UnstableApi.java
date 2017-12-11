@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicates a public API that can change at any time (even in minor/bugfix releases).
+ * 表示可以随时更改的公共API(even in minor/bugfix releases).
  *
  * Usage guidelines:
  *

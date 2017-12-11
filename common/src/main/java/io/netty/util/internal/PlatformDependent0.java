@@ -79,28 +79,25 @@ final class PlatformDependent0 {
             direct = ByteBuffer.allocateDirect(1);
 
             // attempt to access field Unsafe#theUnsafe
-            final Object maybeUnsafe = AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                @Override
-                public Object run() {
-                    try {
-                        final Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-                        Throwable cause = ReflectionUtil.trySetAccessible(unsafeField);
-                        if (cause != null) {
-                            return cause;
-                        }
-                        // the unsafe instance
-                        return unsafeField.get(null);
-                    } catch (NoSuchFieldException e) {
-                        return e;
-                    } catch (SecurityException e) {
-                        return e;
-                    } catch (IllegalAccessException e) {
-                        return e;
-                    } catch (NoClassDefFoundError e) {
-                        // Also catch NoClassDefFoundError in case someone uses for example OSGI and it made
-                        // Unsafe unloadable.
-                        return e;
+            final Object maybeUnsafe = AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                try {
+                    final Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+                    Throwable cause = ReflectionUtil.trySetAccessible(unsafeField);
+                    if (cause != null) {
+                        return cause;
                     }
+                    // the unsafe instance
+                    return unsafeField.get(null);
+                } catch (NoSuchFieldException e) {
+                    return e;
+                } catch (SecurityException e) {
+                    return e;
+                } catch (IllegalAccessException e) {
+                    return e;
+                } catch (NoClassDefFoundError e) {
+                    // Also catch NoClassDefFoundError in case someone uses for example OSGI and it made
+                    // Unsafe unloadable.
+                    return e;
                 }
             });
 
@@ -122,18 +119,15 @@ final class PlatformDependent0 {
             // http://www.mail-archive.com/jdk6-dev@openjdk.java.net/msg00698.html
             if (unsafe != null) {
                 final Unsafe finalUnsafe = unsafe;
-                final Object maybeException = AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                    @Override
-                    public Object run() {
-                        try {
-                            finalUnsafe.getClass().getDeclaredMethod(
-                                    "copyMemory", Object.class, long.class, Object.class, long.class, long.class);
-                            return null;
-                        } catch (NoSuchMethodException e) {
-                            return e;
-                        } catch (SecurityException e) {
-                            return e;
-                        }
+                final Object maybeException = AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                    try {
+                        finalUnsafe.getClass().getDeclaredMethod(
+                                "copyMemory", Object.class, long.class, Object.class, long.class, long.class);
+                        return null;
+                    } catch (NoSuchMethodException e) {
+                        return e;
+                    } catch (SecurityException e) {
+                        return e;
                     }
                 });
 
@@ -151,26 +145,23 @@ final class PlatformDependent0 {
                 final Unsafe finalUnsafe = unsafe;
 
                 // attempt to access field Buffer#address
-                final Object maybeAddressField = AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                    @Override
-                    public Object run() {
-                        try {
-                            final Field field = Buffer.class.getDeclaredField("address");
-                            // Use Unsafe to read value of the address field. This way it will not fail on JDK9+ which
-                            // will forbid changing the access level via reflection.
-                            final long offset = finalUnsafe.objectFieldOffset(field);
-                            final long address = finalUnsafe.getLong(direct, offset);
+                final Object maybeAddressField = AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                    try {
+                        final Field field = Buffer.class.getDeclaredField("address");
+                        // Use Unsafe to read value of the address field. This way it will not fail on JDK9+ which
+                        // will forbid changing the access level via reflection.
+                        final long offset = finalUnsafe.objectFieldOffset(field);
+                        final long address = finalUnsafe.getLong(direct, offset);
 
-                            // if direct really is a direct buffer, address will be non-zero
-                            if (address == 0) {
-                                return null;
-                            }
-                            return field;
-                        } catch (NoSuchFieldException e) {
-                            return e;
-                        } catch (SecurityException e) {
-                            return e;
+                        // if direct really is a direct buffer, address will be non-zero
+                        if (address == 0) {
+                            return null;
                         }
+                        return field;
+                    } catch (NoSuchFieldException e) {
+                        return e;
+                    } catch (SecurityException e) {
+                        return e;
                     }
                 });
 
@@ -212,22 +203,19 @@ final class PlatformDependent0 {
             long address = -1;
             try {
                 final Object maybeDirectBufferConstructor =
-                        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                            @Override
-                            public Object run() {
-                                try {
-                                    final Constructor<?> constructor =
-                                            direct.getClass().getDeclaredConstructor(long.class, int.class);
-                                    Throwable cause = ReflectionUtil.trySetAccessible(constructor);
-                                    if (cause != null) {
-                                        return cause;
-                                    }
-                                    return constructor;
-                                } catch (NoSuchMethodException e) {
-                                    return e;
-                                } catch (SecurityException e) {
-                                    return e;
+                        AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                            try {
+                                final Constructor<?> constructor =
+                                        direct.getClass().getDeclaredConstructor(long.class, int.class);
+                                Throwable cause = ReflectionUtil.trySetAccessible(constructor);
+                                if (cause != null) {
+                                    return cause;
                                 }
+                                return constructor;
+                            } catch (NoSuchMethodException e) {
+                                return e;
+                            } catch (SecurityException e) {
+                                return e;
                             }
                         });
 
@@ -260,29 +248,26 @@ final class PlatformDependent0 {
             ADDRESS_FIELD_OFFSET = objectFieldOffset(addressField);
             BYTE_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(byte[].class);
             boolean unaligned;
-            Object maybeUnaligned = AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                @Override
-                public Object run() {
-                    try {
-                        Class<?> bitsClass =
-                                Class.forName("java.nio.Bits", false, getSystemClassLoader());
-                        Method unalignedMethod = bitsClass.getDeclaredMethod("unaligned");
-                        Throwable cause = ReflectionUtil.trySetAccessible(unalignedMethod);
-                        if (cause != null) {
-                            return cause;
-                        }
-                        return unalignedMethod.invoke(null);
-                    } catch (NoSuchMethodException e) {
-                        return e;
-                    } catch (SecurityException e) {
-                        return e;
-                    } catch (IllegalAccessException e) {
-                        return e;
-                    } catch (ClassNotFoundException e) {
-                        return e;
-                    } catch (InvocationTargetException e) {
-                        return e;
+            Object maybeUnaligned = AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                try {
+                    Class<?> bitsClass =
+                            Class.forName("java.nio.Bits", false, getSystemClassLoader());
+                    Method unalignedMethod = bitsClass.getDeclaredMethod("unaligned");
+                    Throwable cause = ReflectionUtil.trySetAccessible(unalignedMethod);
+                    if (cause != null) {
+                        return cause;
                     }
+                    return unalignedMethod.invoke(null);
+                } catch (NoSuchMethodException e) {
+                    return e;
+                } catch (SecurityException e) {
+                    return e;
+                } catch (IllegalAccessException e) {
+                    return e;
+                } catch (ClassNotFoundException e) {
+                    return e;
+                } catch (InvocationTargetException e) {
+                    return e;
                 }
             });
 
@@ -300,35 +285,29 @@ final class PlatformDependent0 {
             UNALIGNED = unaligned;
 
             if (javaVersion() >= 9) {
-                Object maybeException = AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                    @Override
-                    public Object run() {
-                        try {
-                            // Java9 has jdk.internal.misc.Unsafe and not all methods are propagated to
-                            // sun.misc.Unsafe
-                            Class<?> internalUnsafeClass = getClassLoader(PlatformDependent0.class)
-                                    .loadClass("jdk.internal.misc.Unsafe");
-                            Method method = internalUnsafeClass.getDeclaredMethod("getUnsafe");
-                            return method.invoke(null);
-                        } catch (Throwable e) {
-                            return e;
-                        }
+                Object maybeException = AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                    try {
+                        // Java9 has jdk.internal.misc.Unsafe and not all methods are propagated to
+                        // sun.misc.Unsafe
+                        Class<?> internalUnsafeClass = getClassLoader(PlatformDependent0.class)
+                                .loadClass("jdk.internal.misc.Unsafe");
+                        Method method = internalUnsafeClass.getDeclaredMethod("getUnsafe");
+                        return method.invoke(null);
+                    } catch (Throwable e) {
+                        return e;
                     }
                 });
                 if (!(maybeException instanceof Throwable)) {
                     internalUnsafe = maybeException;
                     final Object finalInternalUnsafe = internalUnsafe;
-                    maybeException = AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                        @Override
-                        public Object run() {
-                            try {
-                                return finalInternalUnsafe.getClass().getDeclaredMethod(
-                                        "allocateUninitializedArray", Class.class, int.class);
-                            } catch (NoSuchMethodException e) {
-                                return e;
-                            } catch (SecurityException e) {
-                                return e;
-                            }
+                    maybeException = AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+                        try {
+                            return finalInternalUnsafe.getClass().getDeclaredMethod(
+                                    "allocateUninitializedArray", Class.class, int.class);
+                        } catch (NoSuchMethodException e) {
+                            return e;
+                        } catch (SecurityException e) {
+                            return e;
                         }
                     });
 
@@ -726,12 +705,7 @@ final class PlatformDependent0 {
         if (System.getSecurityManager() == null) {
             return clazz.getClassLoader();
         } else {
-            return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                @Override
-                public ClassLoader run() {
-                    return clazz.getClassLoader();
-                }
-            });
+            return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) clazz::getClassLoader);
         }
     }
 
@@ -739,12 +713,7 @@ final class PlatformDependent0 {
         if (System.getSecurityManager() == null) {
             return Thread.currentThread().getContextClassLoader();
         } else {
-            return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                @Override
-                public ClassLoader run() {
-                    return Thread.currentThread().getContextClassLoader();
-                }
-            });
+            return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) Thread.currentThread()::getContextClassLoader);
         }
     }
 
@@ -752,12 +721,7 @@ final class PlatformDependent0 {
         if (System.getSecurityManager() == null) {
             return ClassLoader.getSystemClassLoader();
         } else {
-            return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                @Override
-                public ClassLoader run() {
-                    return ClassLoader.getSystemClassLoader();
-                }
-            });
+            return AccessController.doPrivileged((PrivilegedAction<ClassLoader>) ClassLoader::getSystemClassLoader);
         }
     }
 

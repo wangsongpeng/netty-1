@@ -16,7 +16,6 @@
 
 package io.netty.util.internal;
 
-import io.netty.util.concurrent.FastThreadLocal;
 import io.netty.util.concurrent.FastThreadLocalThread;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -24,16 +23,11 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.*;
 
 /**
- * The internal data structure that stores the thread-local variables for Netty and all {@link FastThreadLocal}s.
- * Note that this class is for internal use only and is subject to change at any time.  Use {@link FastThreadLocal}
- * unless you know what you are doing.
+ * 存储Netty和所有FastThreadLocal的线程局部变量的内部数据结构
+ * 请注意，此类仅供内部使用，随时可能更改。 除非你知道你在做什么，否则使用 FastThreadLocal。
  */
 public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap {
 

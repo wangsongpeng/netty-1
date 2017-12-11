@@ -38,11 +38,10 @@ public final class MacAddressUtil {
     private static final int EUI48_MAC_ADDRESS_LENGTH = 6;
 
     /**
-     * Obtains the best MAC address found on local network interfaces.
-     * Generally speaking, an active network interface used on public
-     * networks is better than a local network interface.
+     * 获得本地网络接口上的最佳MAC地址。
+     * 一般来说，在公网上使用的主动网络接口要优于本地网络接口.
      *
-     * @return byte array containing a MAC. null if no MAC can be found.
+     * @return 包含MAC的字节数组。 如果不能找到MAC，则返回null.
      */
     public static byte[] bestAvailableMac() {
         // Find the best MAC address available.
