@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.RandomAccess;
 
 /**
- * A simple list which is recyclable. This implementation does not allow {@code null} elements to be added.
+ * 一个可回收的 List，该 List 不允许添加的元素为空
  */
 public final class RecyclableArrayList extends ArrayList<Object> {
 
@@ -89,12 +89,15 @@ public final class RecyclableArrayList extends ArrayList<Object> {
         return false;
     }
 
+    /**
+     * 检查添加的集合内部元素是不是有 null 的值
+     * @param c
+     */
     private static void checkNullElements(Collection<?> c) {
         if (c instanceof RandomAccess && c instanceof List) {
             // produce less garbage
             List<?> list = (List<?>) c;
-            int size = list.size();
-            for (int i = 0; i  < size; i++) {
+            for (int i = 0; i  < list.size(); i++) {
                 if (list.get(i) == null) {
                     throw new IllegalArgumentException("c contains null values");
                 }
@@ -140,7 +143,7 @@ public final class RecyclableArrayList extends ArrayList<Object> {
     }
 
     /**
-     * Returns {@code true} if any elements where added or set. This will be reset once {@link #recycle()} was called.
+     * 任何元素 add 或者 set 进 List 的时候都会返回 true，一旦 recycle() 方法执行，会重置
      */
     public boolean insertSinceRecycled() {
         return insertSinceRecycled;

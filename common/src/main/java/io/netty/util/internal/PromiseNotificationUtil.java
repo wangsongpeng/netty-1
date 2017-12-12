@@ -19,7 +19,7 @@ import io.netty.util.concurrent.Promise;
 import io.netty.util.internal.logging.InternalLogger;
 
 /**
- * Internal utilities to notify {@link Promise}s.
+ * 内部实用程序通知 Promise
  */
 public final class PromiseNotificationUtil {
 
