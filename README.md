@@ -27,6 +27,14 @@ You require the following to build Netty:
 
 ## Netty4 以后版本新特性
 
+Netty 4.0 新特性：https://github.com/netty/netty/wiki/New-and-noteworthy-in-4.0
+
+Netty 4.1 与 4.0 的区别：https://github.com/netty/netty/wiki/New-and-noteworthy-in-4.1
+
+因为我现在看的源码是 4.1 版本，且 4.0 版本以后区别和以前很大，所以我把 4.x 都了解下
+
+---
+
 博客参考：http://ifeve.com/netty-4-0-new/
 
 更多关于 netty 的博客可以参考：
@@ -78,6 +86,14 @@ netty-transport-udt	                      2472       UDT transport
 ```
 
 重要的几个：netty-codec、 netty-handler、 netty-transport、 netty-buffer
+
+netty-codec 代码量：        93772
+
+netty-handler 代码量：      22231
+
+netty-transport 代码量：    40646
+
+netty-buffer 代码量：       5988
 
 统计代码行数的脚本：
 
