@@ -17,12 +17,14 @@
 package io.netty.buffer;
 
 import io.netty.util.IllegalReferenceCountException;
+import io.netty.util.ReferenceCounted;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import static io.netty.util.internal.ObjectUtil.checkPositive;
 
 /**
+ * 抽象的引用计数器字节缓冲对象,实现{@link ReferenceCounted}方法.针对计数,释放引用次数提供公共实现.
  * Abstract base class for {@link ByteBuf} implementations that count references.
  */
 public abstract class AbstractReferenceCountedByteBuf extends AbstractByteBuf {

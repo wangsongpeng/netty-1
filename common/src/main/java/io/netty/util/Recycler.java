@@ -32,7 +32,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 /**
- * 基于线程本地堆栈的轻量级对象池.
+ * 基于线程本地堆栈的轻量级内存对象池.
  *
  * @param <T> the type of the pooled object
  */
